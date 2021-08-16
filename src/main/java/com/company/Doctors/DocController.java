@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class Doctors {
+public class DocController {
     private static Scanner sc = new Scanner(System.in);
     private static PreparedStatement ps;
     private static ResultSet rs;
@@ -62,6 +62,8 @@ public class Doctors {
         int id = sc.nextInt();
 
         try {
+            ps = dbConnection.getConnection().prepareStatement("DELETE FROM doctors_shifts WHERE doctors_id=" + id);
+            ps.execute();
             ps = dbConnection.getConnection().prepareStatement("DELETE FROM doctors WHERE doctors_id="+ id);
             ps.execute();
             System.out.println("Successfully deleted doctor. ");
@@ -71,5 +73,44 @@ public class Doctors {
         }
 
     }
+    public static Doctor getDoctors() {
 
-}
+        try {
+            ps = dbConnection.getConnection().prepareStatement("SELECT * FROM doctors");
+            rs = ps.executeQuery();
+
+
+            int doctors_id;
+            String first_name, second_name, speciality;
+
+            Doctor doctor = new Doctor();
+            System.out.println("doctors_id\t first_name\t second_name\t speciality");
+
+            while (rs.next()) {
+                doctors_id = rs.getInt("doctors_id");
+                first_name = rs.getString("first_name");
+                second_name = rs.getString("second_name");
+                speciality = rs.getString("speciality");
+
+                doctor.setDoctors_id(doctors_id);
+                doctor.setFirst_name(first_name);
+                doctor.setSecond_name(second_name);
+                doctor.setSpeciality(speciality);
+
+
+                System.out.println(doctors_id + "\t\t\t " + first_name + "\t\t" + second_name + "\t\t\t " + speciality + "\t ");
+
+            }
+            return doctor;
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+
+
+    }
+    }
+
+
+

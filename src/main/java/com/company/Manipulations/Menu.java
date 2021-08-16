@@ -1,8 +1,9 @@
 package com.company.Manipulations;
 
-import com.company.Doctors.Doctors;
+import com.company.Doctors.DocController;
+import com.company.Shifts.ShiftsController;
 import com.company.Drugs.Drugs;
-import com.company.Patients.Patients;
+import com.company.Patients.PatController;
 
 import java.util.Scanner;
 
@@ -10,7 +11,7 @@ public class Menu {
     public static void menu() {
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Please select with what table you want to work: \n 1.Patients \n 2.Doctors \n 3.Drugs");
+        System.out.println("Please select with what table you want to work: \n 1.Patients \n 2.Doctors and shifts \n 3.Drugs");
         System.out.println("Select an option: ");
         int option = sc.nextInt();
         switch (option) {
@@ -24,7 +25,8 @@ public class Menu {
                 menu3();
                 break;
             default:
-                System.out.println("Invalid option. ");
+                System.out.println("Enter with which table you want to work:");
+                menu();
 
         }
     }
@@ -34,26 +36,31 @@ public class Menu {
             System.out.println("1. Add a new patient. ");
             System.out.println("2. Edit information about patient. ");
             System.out.println("3. Delete patient.");
+            System.out.println("4. Add patient to shift. ");
 
             System.out.println("Select an option: ");
             int option1 = sc.nextInt();
 
             switch (option1) {
                 case 1:
-                    Patients.addNewPatient();
+                    PatController.addNewPatient();
 
                     Menu.menu4();
                     break;
                 case 2:
-                    Patients.editPatient();
+                    PatController.editPatient();
 
                     Menu.menu4();
                     break;
                 case 3:
-                    Patients.deletePatient();
+                    PatController.deletePatient();
 
                     Menu.menu4();
                     break;
+                case 4:
+                    ShiftsController.addPatientToShift();
+
+                    Menu.menu4();
                 default:
                     System.out.println("Invalid option. ");
             }
@@ -63,23 +70,29 @@ public class Menu {
                 System.out.println("What would you like to do now? ");
                 System.out.println("1. Add a new doctor. ");
                 System.out.println("2. Edit information about doctor. ");
-                System.out.println("3. Delete doctor from the table. ");
+                System.out.println("3. Delete doctor from the table (shifts will be deleted also). ");
+                System.out.println("4. Add a new shift for doctor. ");
                 System.out.println("Select an option: ");
                 int option2 = sc.nextInt();
 
                 switch (option2) {
                     case 1:
-                        Doctors.addNewDoctor();
+                        DocController.addNewDoctor();
 
                         Menu.menu4();
                         break;
                     case 2:
-                        Doctors.editDoctor();
+                        DocController.editDoctor();
 
                         Menu.menu4();
                         break;
                     case 3:
-                        Doctors.deleteDoctor();
+                        DocController.deleteDoctor();
+
+                        Menu.menu4();
+                        break;
+                    case 4:
+                        ShiftsController.addNewShift();
 
                         Menu.menu4();
                         break;
@@ -128,6 +141,8 @@ public class Menu {
             case 2:
                 System.out.println("Your work is ended.");
                 break;
+            default:
+                System.out.println("Invalid option. ");
         }
     }
 
